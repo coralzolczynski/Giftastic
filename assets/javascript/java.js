@@ -1,10 +1,7 @@
 
 $(document).ready(function () {
   var characters = ["Bilbo baggins", "Thorin Oakenshield", "Smaug", "Thranduil", "Bard the Bowman", "Sauron"];
-
-  function alertCharacterName() {
-
-  }
+  const allowCORS = 'https://cors-anywhere.herokuapp.com/'
 
   // Function for displaying character data
   function renderButtons() {
@@ -25,7 +22,7 @@ $(document).ready(function () {
     }
   }
 
-  $("#add-char").on("click", function (event) {
+  $(document).on("click", "#add-char", function (event) {
     event.preventDefault();
     // grabs the input from the textbox
     var movie = $("#char-input").val().trim();
@@ -34,20 +31,17 @@ $(document).ready(function () {
     renderButtons();
   });
 
-  $(document).on("click", ".movie", alertCharacterName);
-
   renderButtons();
 
-  $("button").on("click", function () {
+  $(document).on("click", ".char", function () {
     var characters = $(this).attr("data-name");
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+    var queryURL =  allowCORS + "https://api.giphy.com/v1/gifs/search?q=" +
       characters + "&api_key=Xuxi7trULn8Rpgvd2QYdbXh6gb4qC653&limit=10";
 
     $.ajax({
       url: queryURL,
       method: "GET"
-    })
-      .then(function (response) {
+    }).then(function (response) {
         var results = response.data;
 
         for (var i = 0; i < results.length; i++) {
@@ -56,9 +50,9 @@ $(document).ready(function () {
           var rating = results[i].rating;
           var p = $("<p>").text("Rating: " + rating);
           var charImage = $("<img>");
-          charImage.attr("src", results[i].images.fixed_height.url.replace(/^http:\/\//i, 'https://'));
-          charImage.attr('data-still', results[i].images.fixed_height_still.url.replace(/^http:\/\//i, 'https://'));
-          charImage.attr('data-animate', results[i].images.fixed_height.url.replace(/^http:\/\//i, 'https://'));
+          charImage.attr("src", results[i].images.fixed_height.url);
+          charImage.attr('data-still', results[i].images.fixed_height_still.url);
+          charImage.attr('data-animate', results[i].images.fixed_height.url);
           charImage.attr('data-state', "still");
           gifDiv.prepend(p);
           gifDiv.prepend(charImage);
