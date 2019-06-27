@@ -62,7 +62,7 @@ $(document).ready(function () {
       });
   });
 
-  $("#gifs-appear-here").on("click", function () {
+  $(document).on("click", "#gifs-appear-here", function () {
     var state = $(this).attr("data-state");
     if (state === 'still') {
       $(this).attr('src', $(this).attr('data-animate'));
